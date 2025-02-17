@@ -25,7 +25,7 @@
     </li>
     <!-- Apps -->
     <li class="menu-item">
-      <a href="{{ route('ruangan.index') }}" class="menu-link">
+      <a href="{{ route('rooms.index') }}" class="menu-link">
         <i class='menu-icon tf-icons bx bx-home' ></i>
         <div data-i18n="Rooms">Data Ruangan</div>
         {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
@@ -33,9 +33,9 @@
     </li>
      
     <li class="menu-item">
-      <a href="" class="menu-link">
+      <a href="#" class="menu-link">
         <i class="menu-icon tf-icons bx bx-grid"></i>
-        <div data-i18n="Kanban">Kanban</div>
+        <div data-i18n="Kanban">XXCS</div>
       </a>
     </li>
     

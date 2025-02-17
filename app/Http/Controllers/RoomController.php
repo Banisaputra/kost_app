@@ -7,60 +7,70 @@ use App\Models\Room;
 
 class RoomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $rooms = Room::all();
         return view('admin.room', compact('rooms'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        // validate the request
+        $request->validate([
+            'code' => 'required|string|max:25',
+            'name' => 'required|string|max:100',
+            'description' => 'string|max:255',
+        ]);
+
+        // store the room
+        $room = Room::create($request->all());
+
+        // redirect to the room list
+        return redirect()->route('rooms.index')->with('success', 'Room created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        // get data
+        $room = Room::find($id);
+
+        if(!$room) return response()->json(['error' => 'Room not found'], 404);
+        return response()->json($room);
+    
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        // validate the request
+        $request->validate([
+            'code' => 'required|string|max:25|unique:rooms,id,'.$request->room_id,
+            'name' => 'required|string|max:100',
+            'description' => 'string|max:255',
+        ]);
+
+        // update the room
+        $roomId = $request->room_id;
+        $room = Room::find($roomId);
+        if(!$room) return response()->json(['error' => 'Room not found'], 404);
+
+        $room->update([
+            'code' => $request->code,
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        // redirect to the room list
+        return redirect()->route('rooms.index')->with('success', 'Room updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $room = Room::find($id);
+        if(!$room) return response()->json(['error' => 'Room not found'], 404);
+
+        $room->delete();
+
+        // redirect to the room list
+        return redirect()->route('rooms.index')->with('success', 'Room deleted successfully.');
     }
 }

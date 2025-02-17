@@ -9,6 +9,6 @@ Route::get('/', function () {
 });
 
 
-// master ruangan
-Route::resource('ruangan', RoomController::class);
+// master rooms
+Route::resource('rooms', RoomController::class);
 
